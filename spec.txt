@@ -1,0 +1,178 @@
+Design Document: tpt-teleop-construction (Heavy Machinery & Mining Operations)
+Version: 1.0.0 (v1 Monolithic Release)
+Date: August 26, 2026
+Status: Approved for Development
+Sister Repositories: tpt-teleop, tpt-teleop-fleet, tpt-t-agri, tpt-teleop-marine, tpt-teleop-medical, tpt-teleop-defense
+(Note: Repository retains the full tpt-teleop-construction name. All internal crates use the simplified tpt-t-construction- prefix.)
+1. Executive Summary
+tpt-teleop-construction is the hyper-optimized, zero-bloat, safety-critical, Rust-based middleware workspace designed for the heaviest, dirtiest, and most physically demanding robotics environments on Earth: the construction site and the mine.
+While tpt-teleop-fleet orchestrates precision warehouse robots and tpt-teleop-defense operates in adversarial conditions, tpt-teleop-construction operates where machines weigh 100 tons, hydraulic pressures exceed 300 bar, vibrations shake sensors loose, dust coats every surface, and a single control error can crush a human or collapse a tunnel. It orchestrates autonomous excavators, haul trucks, drilling rigs, dozers, loaders, and tunnel boring machines in open-pit mines, underground mines, quarries, and large-scale civil construction projects.
+The fundamental constraints are brutal: massive inertia (a 400-ton haul truck takes 400 meters to stop), slow hydraulic dynamics (valves have 200ms response times), extreme vibration (10g shaking from diesel engines), GPS-denied underground environments, safety-critical proximity detection (humans on foot in the same space as 100-ton machines), and continuous 24/7 operation in weather from -40°C to +50°C. This spec is built around those constraints.
+2. Licensing & Dependency Policy
+Project License: MIT OR Apache-2.0.
+Dependency Policy: Strictly enforces the MIT/BSD/ISC chain. cargo-deny rejects any Apache-only dependencies. Dual-licensed crates are resolved strictly under MIT.
+Safety Note: Construction and mining equipment must comply with ISO 19014 (earth-moving machinery safety), MSHA (Mine Safety and Health Administration) regulations, and equivalent national standards. tpt-teleop-construction is architected to support functional safety certification (IEC 61508 SIL 2/3) through deterministic execution, redundant safety monitoring, and complete audit trails.
+3. Workspace Architecture (The Crates)
+The repository is structured as a Cargo Workspace. Every crate uses the simplified tpt-t-construction- prefix.
+Core & Heavy Machinery Control
+tpt-t-construction-core: The central event loop, machine state machine (Idle → Moving → Working → Dumping → Returning), and lock-free message bus.
+tpt-t-construction-excavator: Autonomous excavator control. Trenching, digging, grading, and swing motion planning. Handles the complex kinematics of boom-arm-bucket linkages and hydraulic cylinder coordination.
+tpt-t-construction-haul: Autonomous haul truck coordination. Haul road optimization, dump point queueing, and speed management based on grade and payload.
+tpt-t-construction-dozer: Autonomous dozer control. Blade control, slope grading, and material pushing with real-time cut/fill volume tracking.
+tpt-t-construction-loader: Wheel loader and front-end loader control. Bucket digging, lifting, and truck loading with payload weighing.
+tpt-t-construction-drill: Automated drilling rigs. Blast hole pattern execution, depth control, and drill rate optimization based on rock hardness detection.
+Underground & GPS-Denied
+tpt-t-construction-mine: Underground mine navigation. LiDAR SLAM, UWB (Ultra-Wideband) positioning, and ventilation-aware routing.
+tpt-t-construction-tunnel: Tunnel boring machine (TBM) and roadheader control. Advance rate optimization, cutter head torque management, and segment installation coordination.
+Hydraulic & Powertrain
+tpt-t-construction-hydraulic: Proportional hydraulic valve control. Direct PWM control of electro-hydraulic valves for boom, arm, bucket, swing, and travel. Handles pressure compensation, flow sharing, and load-sensing logic.
+tpt-t-construction-powertrain: Diesel engine and transmission control. Torque management, gear shifting, and engine derating based on thermal and emission constraints.
+Terrain & Payload
+tpt-t-construction-terrain: Real-time 3D terrain modeling. LiDAR-based surface reconstruction, slope stability analysis, bearing capacity estimation, and dynamic obstacle detection.
+tpt-t-construction-payload: Material tracking and volume calculation. Cut/fill volume estimation, payload weighing (on-board scales), and material type classification (dirt, rock, ore).
+Safety & Proximity
+tpt-t-construction-safety: Proximity detection system (PDS). Radar, LiDAR, and camera fusion to detect humans, light vehicles, and other equipment within the machine's swing radius or travel path. Triggers audible/visual warnings and automatic slowdown/stop.
+tpt-t-construction-rollover: Rollover protection system (ROPS) monitoring. Real-time tilt angle, center-of-gravity estimation, and automatic brake application if rollover threshold is approached.
+tpt-t-construction-fatigue: Operator fatigue monitoring (for teleoperation or supervised autonomy). Camera-based eye tracking, steering pattern analysis, and mandatory rest enforcement.
+Maintenance & Telemetry
+tpt-t-construction-wear: Predictive maintenance for heavy equipment. Monitors hydraulic pressure, engine hours, vibration signatures, and undercarriage wear to predict component failure before it happens.
+tpt-t-construction-telemetry: High-frequency data logging. 100Hz logging of all machine parameters (pressures, temperatures, positions, forces) to local NVMe for post-shift analysis and OEM warranty claims.
+4. Extreme Performance Tactics (Construction-Specific)
+Construction and mining environments demand performance tactics that handle massive physical forces, extreme vibration, and continuous operation.
+4.1. Sub-Millisecond Hydraulic Valve Control
+A 100-ton excavator's boom must respond smoothly to operator commands. Hydraulic proportional valves have 200ms response times, so the control loop must be fast enough to compensate.
+The Solution: tpt-t-construction-hydraulic runs a 1kHz PID control loop on a dedicated, pinned CPU core with SCHED_FIFO priority. It reads pressure transducers and position sensors, calculates the required valve spool position, and outputs PWM signals directly to the valve drivers. The entire loop executes in <100 microseconds.
+Zero-Allocation: All sensor readings and control outputs use pre-allocated static arrays. No heap, no dynamic dispatch.
+Vibration Filtering: Custom digital filters reject the 50-200Hz vibration noise from the diesel engine and hydraulic pumps, extracting the true position signal.
+4.2. Real-Time Cut/Fill Volume Calculation
+A dozer or excavator must know exactly how much material it has moved to optimize the dig plan and avoid over/under-cutting.
+The Solution: tpt-t-construction-payload fuses LiDAR scans (taken every 5 seconds) with the machine's GNSS position and blade/bucket position. It uses SIMD-accelerated point cloud processing to calculate the volume of material moved in real-time. The entire calculation runs in <10 milliseconds per scan.
+Zero-Copy: LiDAR point clouds are stored in slab-allocated ring buffers. No intermediate allocations.
+4.3. GPS-Denied Underground Navigation
+Underground mines have no GPS signal. Machines must navigate using LiDAR SLAM and UWB beacons.
+The Solution: tpt-t-construction-mine uses a custom LiDAR-based SLAM algorithm optimized for the repetitive, feature-poor environment of mine tunnels. It fuses LiDAR scans with wheel odometry and IMU data via a custom Extended Kalman Filter. For absolute position, it integrates with UWB beacons installed in the mine, achieving <0.5m accuracy.
+SIMD-Accelerated: Point cloud matching uses portable-simd to accelerate the ICP (Iterative Closest Point) algorithm, achieving 10Hz SLAM updates on a Cortex-A72.
+4.4. Proximity Detection with Zero False Stops
+In a mine, haul trucks and light vehicles share the same roads. The proximity detection system must alert operators to nearby humans or vehicles without triggering excessive false stops (which kill productivity).
+The Solution: tpt-t-construction-safety fuses data from 360° LiDAR, radar, and cameras. It uses a custom object tracking and classification algorithm to distinguish between a human on foot, a light vehicle, and another haul truck. It applies dynamic warning zones based on machine speed and direction. The entire perception pipeline runs in <50 milliseconds.
+Deterministic: If a human is detected within the danger zone, the system triggers an audible alarm and automatically reduces machine speed by 50% within 100 milliseconds. If the human remains in the zone, the machine stops completely.
+4.5. Predictive Maintenance via Vibration Analysis
+A $2 million haul truck's engine or transmission failure can cost $500,000 in downtime. Predictive maintenance can detect failures weeks in advance.
+The Solution: tpt-t-construction-wear continuously monitors vibration signatures from accelerometers mounted on the engine, transmission, and final drives. It uses custom FFT (Fast Fourier Transform) analysis to detect the specific frequency signatures of bearing wear, gear tooth damage, or imbalance. The FFT runs on a dedicated core, processing 10kHz vibration data in real-time.
+Zero-Allocation: FFT buffers are pre-allocated. No heap allocations during analysis.
+4.6. Multi-Machine Coordination (Excavator + Trucks)
+An excavator loading 3-4 haul trucks in sequence must coordinate perfectly to minimize truck wait time and maximize throughput.
+The Solution: tpt-t-construction-core implements a custom queue management algorithm. The excavator predicts when each truck will arrive at the dig face based on its GPS position and speed. It adjusts its swing cycle to load the next truck just as it arrives, minimizing idle time. The entire coordination loop runs at 10Hz, with zero allocations.
+5. The "Construction & Mining" Feature Matrix (v1)
+5.1. Autonomous Excavator
+Trench Digging: Follows a pre-defined trench path, digging to exact depth and width.
+Truck Loading: Automatically loads haul trucks with minimal swing cycle time.
+Grading: Uses the bucket to grade surfaces to a designed slope.
+Obstacle Avoidance: Detects and avoids underground utilities, boulders, and other machines.
+5.2. Autonomous Haul Truck
+Haul Road Navigation: Follows designated haul roads, avoiding edge drop-offs.
+Speed Management: Automatically reduces speed on downgrades, curves, and poor visibility sections.
+Dump Point Queueing: Coordinates with other trucks to minimize wait time at the dump point or crusher.
+Payload Weighing: On-board scales measure payload weight on every load, tracking total tons moved per shift.
+5.3. Autonomous Dozer
+Slope Grading: Maintains a designed slope (e.g., 3:1) using real-time blade position feedback.
+Cut/Fill Tracking: Calculates volume of material moved in real-time.
+Material Pushing: Pushes material from stockpiles to hoppers or crushers.
+5.4. Underground Mining
+LiDAR SLAM Navigation: Navigates underground tunnels without GPS.
+Ventilation Awareness: Routes vehicles to avoid areas with poor ventilation or high gas concentrations.
+Bolt Carrier Coordination: Coordinates with ground support equipment (bolt carriers, shotcrete rigs) to ensure safe working distances.
+5.5. Drilling & Blasting
+Blast Hole Pattern Execution: Drills a pre-defined pattern of holes to exact depth and angle.
+Rock Hardness Detection: Detects changes in rock hardness (via drill rate and torque) and logs them for blast design optimization.
+Collar Positioning: Positions the drill rig at exact collar coordinates using LiDAR and GNSS.
+5.6. Safety & Proximity
+360° Object Detection: Detects humans, light vehicles, and other equipment in all directions.
+Automatic Slowdown/Stop: Reduces speed or stops the machine if a hazard is detected.
+Rollover Protection: Monitors tilt angle and automatically applies brakes if rollover is imminent.
+Operator Fatigue Monitoring: Detects signs of operator fatigue and enforces rest breaks.
+6. The Complete "Open-Pit Mine Haulage" Data Flow
+Here is the lifecycle of a typical autonomous haulage operation, demonstrating the zero-allocation, deterministic flow:
+Shift Start: The autonomous haul truck powers on. tpt-t-construction-core runs a full self-test. All safety systems are verified. The truck transitions to Ready.
+Loading Assignment: The dispatch system assigns the truck to Excavator #3 at Dig Face A. The truck calculates the optimal route via tpt-t-construction-terrain, avoiding steep grades and poor visibility sections.
+The Haul: The truck travels at 40 km/h. tpt-t-construction-safety continuously scans for hazards. It detects a light vehicle 200m ahead and automatically reduces speed to 20 km/h.
+Arrival at Dig Face: The truck arrives at Excavator #3. tpt-t-construction-core coordinates with the excavator. The excavator is finishing its current pass and will be ready to load in 30 seconds. The truck queues in the designated spot.
+Loading: The excavator swings and drops a 100-ton load into the truck. tpt-t-construction-payload weighs the load via on-board scales. The excavator loads a second pass. Total payload: 200 tons.
+The Return Haul: The truck travels to the dump point (crusher). tpt-t-construction-powertrain manages engine torque and gear shifting on the 10% downgrade. tpt-t-construction-safety monitors brake temperatures and warns if they approach the fade threshold.
+Dumping: The truck arrives at the crusher dump point. It reverses into position, guided by LiDAR. It raises the bed and dumps the 200-ton load. tpt-t-construction-payload logs the dump event.
+Maintenance Alert: tpt-t-construction-wear detects a vibration signature in the right rear wheel motor indicating early bearing wear. It logs the event and alerts the maintenance team. The truck will be scheduled for inspection at the next shift change.
+Shift End: After 12 hours and 15 cycles, the truck returns to the refuel/maintenance bay. All telemetry data is offloaded to the mine's central server for analysis.
+7. Dependency Matrix (The "No-Bloat" Stack)
+Functionality
+Standard Ecosystem (Banned/Avoided)
+tpt-t-construction Custom / Lightweight Choice
+License
+Hydraulic Control
+Heavy PLC frameworks, tokio
+Custom 1kHz PID loop, direct PWM
+MIT
+LiDAR SLAM
+Heavy SLAM frameworks, pcl
+Custom SIMD ICP, slab-allocated point clouds
+MIT
+Proximity Detection
+OpenCV, heavy ML frameworks
+Custom object tracking, zero-alloc
+MIT
+Vibration Analysis
+rustfft (allocates)
+Custom SIMD FFT, pre-allocated buffers
+MIT
+Serialization
+serde, bincode
+rkyv (Zero-copy)
+MIT
+IPC / Telemetry
+tokio::sync, crossbeam
+Custom tpt-teleop-ring (Lock-free SPSC/MPSC)
+MIT
+Terrain Modeling
+geo, gdal (heavy)
+Custom terrain mesh, SIMD-accelerated
+MIT
+Safety Monitoring
+Heavy safety PLCs
+Custom TMR voter, deterministic FSM
+MIT
+Hydraulic Valves
+CANopen libraries
+Custom zero-alloc CAN/J1939 parser
+MIT
+8. Developer Experience & Simulation
+Testing autonomous heavy machinery requires expensive equipment and large physical spaces. tpt-teleop-construction includes a comprehensive simulation stack.
+tpt-t-construction-sim: A headless simulator that models:
+6DOF vehicle dynamics with realistic suspension, tire/track-soil interaction, and rollover physics
+Hydraulic system dynamics (valve response, pressure drops, cylinder forces)
+Diesel engine torque curves and transmission shifting
+LiDAR and radar returns from synthetic terrain and obstacles
+Proximity detection scenarios with virtual humans and vehicles
+Visualizer: A lightweight egui (MIT) binary that renders:
+3D terrain with cut/fill heatmaps
+Machine trajectories and payload weights
+Proximity detection zones and object classifications
+Hydraulic pressures and valve positions
+Vibration frequency spectra
+The simulator runs at 10x real-time, allowing developers to test 12-hour shifts in just over 1 hour of wall-clock time.
+9. Conclusion
+tpt-teleop-construction v1 brings the tpt ecosystem's uncompromising, zero-bloat philosophy to the heaviest, dirtiest, and most physically demanding robotics environment on Earth.
+By implementing sub-millisecond hydraulic valve control, real-time cut/fill volume calculation, GPS-denied underground navigation via LiDAR SLAM, 360° proximity detection with zero false stops, and predictive maintenance via vibration analysis, tpt-t-construction proves that you don't need heavy, proprietary, or Apache-encumbered middleware to automate the world's largest machines.
+It is a battle-ready, commercially unencumbered, safety-certifiable operating system for the future of autonomous construction and mining—capable of running on a $500,000 haul truck or a $5 million tunnel boring machine, from the surface to 3 kilometers underground, all while maintaining the strict MIT-only dependency chain and zero-bloat performance that defines the tpt ecosystem.
+Every hydraulic valve is controlled in <100 microseconds. Every hazard is detected in <50 milliseconds. Every ton of material is tracked. And every line of code is MIT-licensed.
+
+tpt-teleop-construction → tpt-teleop Integration
+Adapter Crate: tpt-t-construction-teleop (new crate in the construction repo)
+Integration Flow:
+An autonomous excavator is digging a trench. The operator is in a nearby command cabin.
+tpt-teleop provides the video and control link.
+The operator uses joysticks to control the excavator's boom, arm, bucket, and swing.
+tpt-t-construction-teleop receives ControlCommand and translates it into hydraulic proportional valve commands via tpt-t-construction-hydraulic.
+The operator can also control the implement (e.g., switch from bucket to hammer).
+Domain-Specific Adaptation:
+Hydraulic Control: The adapter translates joystick inputs into PWM signals for electro-hydraulic proportional valves, with pressure compensation and flow sharing.
+Implement Control: The adapter allows the operator to control not just the excavator's movement, but also the implement (e.g., tilt the bucket, activate the hammer).
+Vibration Filtering: The adapter filters out diesel engine vibration from the control inputs, ensuring smooth operation.
