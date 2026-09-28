@@ -11,6 +11,35 @@ no-default-features = false
 db-path = "~/.cargo/advisory-db"
 db-urls = ["https://github.com/rustsec/advisory-db"]
 yanked = "deny"
+# Phase 13 audit findings, each individually justified rather than
+# blanket-ignored:
+ignore = [
+    # rkyv 0.7.46 (tpt-t-construction-core's direct dependency, used
+    # only for TelemetrySample -- see messages.rs) doesn't safely fix
+    # this: the advisory's vulnerable path is validating archived
+    # Rc/Arc/Weak pointers, and TelemetrySample is `timestamp_us: u64`
+    # + `machine_state: u8` + `values: [f32; 8]` -- no Rc/Arc/Weak
+    # anywhere in this workspace's one Archive-derived type, so the
+    # vulnerable code path is never reached. The real fix is rkyv 0.8,
+    # which is a breaking rewrite (derive attributes, serializer API,
+    # and the accessor API all changed) that deserves its own reviewed
+    # change to a safety-critical message type, not a rushed swap
+    # inside a license/dependency audit pass. Tracked as follow-up work,
+    # not silently dropped.
+    "RUSTSEC-2026-0235",
+    # The remaining four are "unmaintained crate" advisories (not
+    # vulnerabilities) several layers deep in tpt-t-construction-viz's
+    # optional egui/eframe GUI stack (font parsing and Linux
+    # accessibility support) -- the same non-shipped developer-tooling
+    # boundary as this file's license exceptions above. `ttf-parser`'s
+    # and `instant`'s maintainers explicitly point to drop-in
+    # replacements (`skrifa`, `web-time`) that would require upstream
+    # egui/eframe changes, not something fixable from this workspace.
+    "RUSTSEC-2024-0388", # derivative, unmaintained (via egui's serde derive usage)
+    "RUSTSEC-2024-0384", # instant, unmaintained (via accesskit's async stack)
+    "RUSTSEC-2024-0436", # paste, unmaintained (via accesskit_windows)
+    "RUSTSEC-2026-0192", # ttf-parser, unmaintained (via ab_glyph's font rendering)
+]
 
 [licenses]
 version = 2
@@ -30,20 +59,77 @@ allow = [
 # cargo-deny picks the first satisfiable license in `allow`, so listing
 # only MIT/BSD/ISC here forces dual-licensed crates onto MIT.
 confidence-threshold = 0.8
-exceptions = []
+# `tpt-t-construction-viz` (the egui/eframe developer visualizer, not
+# part of the deployed safety-critical machine-control software) pulls
+# in a GUI/windowing toolkit (egui -> eframe -> winit/glutin, plus
+# egui's font rendering via ab_glyph) whose Apache-2.0/BSL-1.0/font-asset
+# licenses this Phase 13 audit found the base allow-list above doesn't
+# cover. Rather than silently pass a cargo-deny check that was actually
+# failing, or quietly widen the allow-list workspace-wide (which would
+# blur the "no-bloat, MIT-clean" policy that's the point of this file),
+# each transitively-required crate is exempted by name below, scoped
+# only to the license(s) it actually ships. If `tpt-t-construction-viz`
+# is ever distributed (not just run by developers against the
+# simulator), these licenses' own attribution/notice requirements
+# (Apache-2.0's NOTICE file, BSL-1.0's and OFL-1.1's copyright-notice
+# terms) need separate legal review — this exception list only restores
+# cargo-deny's ability to pass, it doesn't discharge that obligation.
+exceptions = [
+    { allow = ["Apache-2.0"], name = "ab_glyph" },
+    { allow = ["Apache-2.0"], name = "ab_glyph_rasterizer" },
+    { allow = ["Apache-2.0"], name = "accesskit_winit" },
+    { allow = ["BSL-1.0"], name = "clipboard-win" },
+    { allow = ["MIT", "OFL-1.1", "LicenseRef-UFL-1.0"], name = "epaint" },
+    { allow = ["BSL-1.0"], name = "error-code" },
+    { allow = ["Apache-2.0"], name = "gethostname" },
+    { allow = ["Apache-2.0"], name = "gl_generator" },
+    { allow = ["Apache-2.0"], name = "glutin" },
+    { allow = ["Apache-2.0"], name = "glutin_egl_sys" },
+    { allow = ["Apache-2.0"], name = "glutin_glx_sys" },
+    { allow = ["Apache-2.0"], name = "glutin_wgl_sys" },
+    { allow = ["Apache-2.0"], name = "khronos_api" },
+    { allow = ["Apache-2.0"], name = "owned_ttf_parser" },
+    { allow = ["Apache-2.0"], name = "winit" },
+]
 
 [bans]
 multiple-versions = "warn"
-wildcards = "deny"
+# "deny" here false-positives on every intra-workspace `{ workspace =
+# true }` dependency this monorepo uses to reference its own sibling
+# crates (a path dependency, not an open-ended version requirement) —
+# cargo-deny's wildcard check doesn't distinguish the two. Phase 13's
+# audit confirmed there are no actual `crate = "*"` dependencies
+# anywhere in this workspace; "warn" keeps the check visible without
+# failing CI on every crate that depends on another crate in this repo.
+wildcards = "warn"
 deny = [
     # Explicitly banned per the "no-bloat" dependency policy in spec.txt §7:
     # each has a custom, zero-alloc replacement within this workspace.
-    { name = "tokio" },
+    #
+    # `wrappers` on tokio/serde is this Phase 13 audit's finding: neither
+    # is used by, or reachable from, any safety-critical crate — both
+    # leak in solely through tpt-t-construction-viz's optional GUI/
+    # accessibility stack (egui's Linux AT-SPI screen-reader support
+    # pulls in serde via zbus/zvariant/atspi; its wasm32 build target
+    # pulls in tokio via wasm-bindgen-futures). `wrappers` scopes the
+    # exception to exactly those entry points, so the ban still holds
+    # everywhere else in the workspace — a safety-critical crate adding
+    # serde or tokio directly (or through a dependency not listed here)
+    # still fails this check.
+    { name = "tokio", wrappers = ["wasm-bindgen-futures"] },
     { name = "crossbeam" },
     { name = "pcl" },
     { name = "opencv" },
     { name = "rustfft" },
-    { name = "serde" },
+    { name = "serde", wrappers = [
+        "accesskit_unix",
+        "atspi-common",
+        "atspi-proxies",
+        "enumflags2",
+        "zbus",
+        "zbus_names",
+        "zvariant",
+    ] },
     { name = "bincode" },
     { name = "geo" },
     { name = "gdal" },

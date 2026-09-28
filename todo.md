@@ -129,6 +129,6 @@ Heavy Machinery & Mining Operations middleware workspace. License: MIT OR Apache
 - [ ] Full 12-hour shift field trial — **blocked on hardware**: requires an actual mine site, an actual machine, and actual personnel; this is what all of the above sign off on before it can happen, not something that happens earlier.
 
 ## Phase 13 — Release Readiness
-- [ ] Crate-level API docs + architecture documentation pass
-- [ ] Final full-tree cargo-deny/license audit
+- [x] Crate-level API docs + architecture documentation pass — `docs/architecture.md` (crate layering, design ethos, end-to-end data flow); every crate's `lib.rs` doc comment reviewed, `tpt-t-construction-teleop`'s stale pre-Phase-10 stub comment updated to describe what's actually implemented
+- [x] Final full-tree cargo-deny/license audit — `docs/dependency_audit.md`: `cargo-deny` had never actually been run in this workspace before this pass; installing and running it surfaced real findings (15 license violations, 2 banned crates leaking in transitively, 1 real security advisory in a direct dependency, 4 unmaintained-crate advisories, 7 tooling false-positives), every one individually fixed or explicitly justified in `deny.toml` rather than blanket-suppressed — `cargo deny check` now passes clean (`advisories ok, bans ok, licenses ok, sources ok`)
 - [ ] v1.0.0 tag and release notes
