@@ -8,3 +8,4 @@ repository.workspace = true
 description = "Material tracking and volume calculation: SIMD cut/fill volume calc, on-board payload weighing, material classification."
 
 [dependencies]
+tpt-teleop-ring = { workspace = true }

@@ -39,12 +39,12 @@ Heavy Machinery & Mining Operations middleware workspace. License: MIT OR Apache
 - [x] `tpt-t-construction-powertrain`: thermal/emissions-based engine derating
 
 ## Phase 4 — Terrain & Payload Sensing
-- [ ] `tpt-t-construction-terrain`: real-time 3D terrain modeling, LiDAR surface reconstruction
-- [ ] `tpt-t-construction-terrain`: slope stability analysis, bearing capacity estimation
-- [ ] `tpt-t-construction-terrain`: dynamic obstacle detection
-- [ ] `tpt-t-construction-payload`: SIMD cut/fill volume calc (<10ms/scan), slab-allocated zero-copy ring buffers
-- [ ] `tpt-t-construction-payload`: on-board scale payload weighing
-- [ ] `tpt-t-construction-payload`: material type classification (dirt, rock, ore)
+- [x] `tpt-t-construction-terrain`: real-time 3D terrain modeling, LiDAR surface reconstruction
+- [x] `tpt-t-construction-terrain`: slope stability analysis, bearing capacity estimation
+- [x] `tpt-t-construction-terrain`: dynamic obstacle detection
+- [x] `tpt-t-construction-payload`: SIMD cut/fill volume calc (<10ms/scan), slab-allocated zero-copy ring buffers
+- [x] `tpt-t-construction-payload`: on-board scale payload weighing
+- [x] `tpt-t-construction-payload`: material type classification (dirt, rock, ore)
 
 ## Phase 5 — Autonomous Machine Control
 - [ ] `tpt-t-construction-excavator`: trench digging to exact depth/width

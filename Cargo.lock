@@ -3332,6 +3332,9 @@ version = "0.1.0"
 [[package]]
 name = "tpt-t-construction-payload"
 version = "0.1.0"
+dependencies = [
+ "tpt-teleop-ring",
+]
 
 [[package]]
 name = "tpt-t-construction-powertrain"
