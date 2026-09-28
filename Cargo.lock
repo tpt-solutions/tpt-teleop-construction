@@ -3317,6 +3317,9 @@ version = "0.1.0"
 [[package]]
 name = "tpt-t-construction-hydraulic"
 version = "0.1.0"
+dependencies = [
+ "libc",
+]
 
 [[package]]
 name = "tpt-t-construction-loader"

@@ -31,12 +31,12 @@ Heavy Machinery & Mining Operations middleware workspace. License: MIT OR Apache
 - [x] Validate 10x real-time sim performance (12hr shift in ~1hr wall-clock)
 
 ## Phase 3 — Hydraulic & Powertrain Foundation
-- [ ] `tpt-t-construction-hydraulic`: 1kHz PID loop on pinned core (SCHED_FIFO), direct PWM valve output, <100µs loop budget
-- [ ] `tpt-t-construction-hydraulic`: pressure compensation, flow sharing, load-sensing logic
-- [ ] `tpt-t-construction-hydraulic`: zero-allocation static arrays for sensor/control data
-- [ ] `tpt-t-construction-hydraulic`: vibration filtering (reject 50-200Hz diesel/pump noise)
-- [ ] `tpt-t-construction-powertrain`: torque management, gear shifting
-- [ ] `tpt-t-construction-powertrain`: thermal/emissions-based engine derating
+- [x] `tpt-t-construction-hydraulic`: 1kHz PID loop on pinned core (SCHED_FIFO), direct PWM valve output, <100µs loop budget
+- [x] `tpt-t-construction-hydraulic`: pressure compensation, flow sharing, load-sensing logic
+- [x] `tpt-t-construction-hydraulic`: zero-allocation static arrays for sensor/control data
+- [x] `tpt-t-construction-hydraulic`: vibration filtering (reject 50-200Hz diesel/pump noise)
+- [x] `tpt-t-construction-powertrain`: torque management, gear shifting
+- [x] `tpt-t-construction-powertrain`: thermal/emissions-based engine derating
 
 ## Phase 4 — Terrain & Payload Sensing
 - [ ] `tpt-t-construction-terrain`: real-time 3D terrain modeling, LiDAR surface reconstruction
