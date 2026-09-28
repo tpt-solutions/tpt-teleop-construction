@@ -76,15 +76,15 @@ Heavy Machinery & Mining Operations middleware workspace. License: MIT OR Apache
 - [x] `tpt-t-construction-tunnel`: segment installation coordination
 
 ## Phase 7 — Safety Systems
-- [ ] `tpt-t-construction-safety`: 360° LiDAR/radar/camera fusion perception pipeline (<50ms)
-- [ ] `tpt-t-construction-safety`: object tracking/classification (human/light vehicle/other equipment)
-- [ ] `tpt-t-construction-safety`: dynamic warning zones based on speed/direction
-- [ ] `tpt-t-construction-safety`: deterministic 50% slowdown (<100ms) + full stop on continued human presence
-- [ ] `tpt-t-construction-rollover`: real-time tilt angle + center-of-gravity estimation
-- [ ] `tpt-t-construction-rollover`: automatic brake application on rollover threshold
-- [ ] `tpt-t-construction-fatigue`: camera-based eye tracking
-- [ ] `tpt-t-construction-fatigue`: steering pattern analysis
-- [ ] `tpt-t-construction-fatigue`: mandatory rest enforcement
+- [x] `tpt-t-construction-safety`: 360° LiDAR/radar/camera fusion perception pipeline (<50ms)
+- [x] `tpt-t-construction-safety`: object tracking/classification (human/light vehicle/other equipment)
+- [x] `tpt-t-construction-safety`: dynamic warning zones based on speed/direction
+- [x] `tpt-t-construction-safety`: deterministic 50% slowdown (<100ms) + full stop on continued human presence
+- [x] `tpt-t-construction-rollover`: real-time tilt angle + center-of-gravity estimation
+- [x] `tpt-t-construction-rollover`: automatic brake application on rollover threshold
+- [x] `tpt-t-construction-fatigue`: camera-based eye tracking
+- [x] `tpt-t-construction-fatigue`: steering pattern analysis
+- [x] `tpt-t-construction-fatigue`: mandatory rest enforcement
 
 ## Phase 8 — Maintenance & Telemetry
 - [ ] `tpt-t-construction-wear`: custom SIMD FFT vibration analysis (pre-allocated, 10kHz, dedicated core)
