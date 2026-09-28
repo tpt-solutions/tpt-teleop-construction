@@ -1,0 +1,14 @@
+[package]
+name = "tpt-t-construction-viz"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "egui-based visualizer: 3D terrain cut/fill heatmaps, machine trajectories, payload weights, proximity zones, hydraulic pressures, vibration spectra."
+
+[[bin]]
+name = "tpt-t-construction-viz"
+path = "src/main.rs"
+
+[dependencies]

@@ -1,0 +1,10 @@
+[package]
+name = "tpt-t-construction-payload"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Material tracking and volume calculation: SIMD cut/fill volume calc, on-board payload weighing, material classification."
+
+[dependencies]

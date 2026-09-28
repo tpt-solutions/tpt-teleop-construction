@@ -1,0 +1,12 @@
+[package]
+name = "tpt-teleop-ring"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Vendored lock-free SPSC/MPMC bounded ring buffers for zero-allocation IPC and telemetry, with no dependencies beyond std."
+
+[dependencies]
+
+[dev-dependencies]

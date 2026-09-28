@@ -3,19 +3,19 @@
 Heavy Machinery & Mining Operations middleware workspace. License: MIT OR Apache-2.0. TPT Solutions.
 
 ## Phase 0 — Repository & Workspace Setup
-- [ ] Init git repo
-- [ ] Cargo workspace `Cargo.toml` listing all `tpt-t-construction-*` member crates
-- [ ] `LICENSE-MIT` and `LICENSE-APACHE` (Copyright TPT Solutions), dual-license header convention for source files
-- [ ] `deny.toml` (cargo-deny): enforce MIT/BSD/ISC chain, reject Apache-only deps, force dual-licensed crates to resolve as MIT
-- [ ] CI pipeline: build, test, clippy, fmt, cargo-deny check
-- [ ] `README.md`: overview, workspace layout, sister-repo links, license
-- [ ] Stub out empty crate skeletons (Cargo.toml + lib.rs) for all crates listed below
+- [x] Init git repo
+- [x] Cargo workspace `Cargo.toml` listing all `tpt-t-construction-*` member crates
+- [x] `LICENSE-MIT` and `LICENSE-APACHE` (Copyright TPT Solutions), dual-license header convention for source files
+- [x] `deny.toml` (cargo-deny): enforce MIT/BSD/ISC chain, reject Apache-only deps, force dual-licensed crates to resolve as MIT
+- [x] CI pipeline: build, test, clippy, fmt, cargo-deny check
+- [x] `README.md`: overview, workspace layout, sister-repo links, license
+- [x] Stub out empty crate skeletons (Cargo.toml + lib.rs) for all crates listed below
 
 ## Phase 1 — Core Infrastructure
-- [ ] `tpt-t-construction-core`: event loop, machine state machine (Idle→Moving→Working→Dumping→Returning), lock-free message bus
-- [ ] Integrate/vendor lock-free SPSC/MPSC ring buffer (tpt-teleop-ring) for IPC/telemetry
-- [ ] rkyv zero-copy message type definitions
-- [ ] Full self-test framework (shift-start diagnostics)
+- [x] `tpt-t-construction-core`: event loop, machine state machine (Idle→Moving→Working→Dumping→Returning), lock-free message bus
+- [x] Integrate/vendor lock-free SPSC/MPSC ring buffer (tpt-teleop-ring) for IPC/telemetry
+- [x] rkyv zero-copy message type definitions
+- [x] Full self-test framework (shift-start diagnostics)
 
 ## Phase 2 — Simulation & Developer Experience
 - [ ] `tpt-t-construction-sim`: 6DOF vehicle dynamics, tire/track-soil + rollover physics

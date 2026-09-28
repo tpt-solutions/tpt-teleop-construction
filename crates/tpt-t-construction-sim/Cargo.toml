@@ -1,0 +1,10 @@
+[package]
+name = "tpt-t-construction-sim"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Headless simulator: 6DOF vehicle dynamics, hydraulic system dynamics, engine/transmission curves, synthetic LiDAR/radar, proximity scenarios."
+
+[dependencies]

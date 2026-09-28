@@ -1,0 +1,10 @@
+[package]
+name = "tpt-t-construction-terrain"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Real-time 3D terrain modeling: LiDAR surface reconstruction, slope stability analysis, dynamic obstacle detection."
+
+[dependencies]

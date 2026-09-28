@@ -1,0 +1,43 @@
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+authors = ["TPT Solutions"]
+repository = "https://github.com/tpt-solutions/tpt-teleop-construction"
+
+[workspace.dependencies]
+tpt-teleop-ring = { path = "crates/tpt-teleop-ring" }
+tpt-t-construction-core = { path = "crates/tpt-t-construction-core" }
+tpt-t-construction-hydraulic = { path = "crates/tpt-t-construction-hydraulic" }
+tpt-t-construction-powertrain = { path = "crates/tpt-t-construction-powertrain" }
+tpt-t-construction-terrain = { path = "crates/tpt-t-construction-terrain" }
+tpt-t-construction-payload = { path = "crates/tpt-t-construction-payload" }
+tpt-t-construction-safety = { path = "crates/tpt-t-construction-safety" }
+tpt-t-construction-rollover = { path = "crates/tpt-t-construction-rollover" }
+tpt-t-construction-fatigue = { path = "crates/tpt-t-construction-fatigue" }
+tpt-t-construction-wear = { path = "crates/tpt-t-construction-wear" }
+tpt-t-construction-telemetry = { path = "crates/tpt-t-construction-telemetry" }
+tpt-t-construction-mine = { path = "crates/tpt-t-construction-mine" }
+tpt-t-construction-tunnel = { path = "crates/tpt-t-construction-tunnel" }
+tpt-t-construction-excavator = { path = "crates/tpt-t-construction-excavator" }
+tpt-t-construction-haul = { path = "crates/tpt-t-construction-haul" }
+tpt-t-construction-dozer = { path = "crates/tpt-t-construction-dozer" }
+tpt-t-construction-loader = { path = "crates/tpt-t-construction-loader" }
+tpt-t-construction-drill = { path = "crates/tpt-t-construction-drill" }
+tpt-t-construction-sim = { path = "crates/tpt-t-construction-sim" }
+tpt-t-construction-teleop = { path = "crates/tpt-t-construction-teleop" }
+
+rkyv = { version = "0.7", default-features = false, features = ["size_32", "std"] }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.dev]
+opt-level = 1

@@ -1,0 +1,10 @@
+[package]
+name = "tpt-t-construction-haul"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Autonomous haul truck coordination: haul road navigation, speed management, dump-point queueing, payload tracking."
+
+[dependencies]

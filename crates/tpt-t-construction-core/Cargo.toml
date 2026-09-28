@@ -1,0 +1,12 @@
+[package]
+name = "tpt-t-construction-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Central event loop, machine state machine (Idle/Moving/Working/Dumping/Returning), lock-free message bus, and shift-start self-test framework."
+
+[dependencies]
+tpt-teleop-ring = { workspace = true }
+rkyv = { workspace = true }

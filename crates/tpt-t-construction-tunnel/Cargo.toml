@@ -1,0 +1,10 @@
+[package]
+name = "tpt-t-construction-tunnel"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Tunnel boring machine / roadheader control: advance rate optimization, cutter head torque management, segment installation."
+
+[dependencies]

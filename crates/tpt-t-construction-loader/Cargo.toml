@@ -1,0 +1,10 @@
+[package]
+name = "tpt-t-construction-loader"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Wheel/front-end loader control: bucket digging and lifting, truck loading with payload weighing."
+
+[dependencies]

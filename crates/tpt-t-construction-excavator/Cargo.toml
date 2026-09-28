@@ -1,0 +1,10 @@
+[package]
+name = "tpt-t-construction-excavator"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Autonomous excavator control: trench digging, truck loading, grading, boom-arm-bucket kinematics, obstacle avoidance."
+
+[dependencies]

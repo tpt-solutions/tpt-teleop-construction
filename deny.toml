@@ -1,0 +1,57 @@
+# cargo-deny configuration for tpt-teleop-construction
+# Enforces the MIT/BSD/ISC dependency chain: no Apache-only dependencies,
+# and dual-licensed crates (e.g. "MIT OR Apache-2.0") resolve strictly as MIT.
+
+[graph]
+targets = []
+all-features = false
+no-default-features = false
+
+[advisories]
+db-path = "~/.cargo/advisory-db"
+db-urls = ["https://github.com/rustsec/advisory-db"]
+yanked = "deny"
+
+[licenses]
+version = 2
+# Only these licenses (or combinations resolvable to one of them) are allowed.
+# Dual-licensed crates such as "MIT OR Apache-2.0" satisfy this via MIT alone,
+# so Apache-2.0 never needs to be the license actually applied.
+allow = [
+    "MIT",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Unicode-3.0",
+    "Zlib",
+]
+# Apache-2.0 is never allowed as the resolved license for a dependency,
+# even when it appears as one option in a dual-license expression -
+# cargo-deny picks the first satisfiable license in `allow`, so listing
+# only MIT/BSD/ISC here forces dual-licensed crates onto MIT.
+confidence-threshold = 0.8
+exceptions = []
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+deny = [
+    # Explicitly banned per the "no-bloat" dependency policy in spec.txt §7:
+    # each has a custom, zero-alloc replacement within this workspace.
+    { name = "tokio" },
+    { name = "crossbeam" },
+    { name = "pcl" },
+    { name = "opencv" },
+    { name = "rustfft" },
+    { name = "serde" },
+    { name = "bincode" },
+    { name = "geo" },
+    { name = "gdal" },
+]
+skip = []
+skip-tree = []
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]

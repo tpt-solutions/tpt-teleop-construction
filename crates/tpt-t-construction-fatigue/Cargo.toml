@@ -1,0 +1,10 @@
+[package]
+name = "tpt-t-construction-fatigue"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Operator fatigue monitoring: camera-based eye tracking, steering pattern analysis, mandatory rest enforcement."
+
+[dependencies]

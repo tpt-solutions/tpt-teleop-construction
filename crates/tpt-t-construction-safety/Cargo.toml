@@ -1,0 +1,10 @@
+[package]
+name = "tpt-t-construction-safety"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Proximity detection system: 360 degree LiDAR/radar/camera fusion, object classification, dynamic warning zones, deterministic slowdown/stop."
+
+[dependencies]
