@@ -66,14 +66,14 @@ Heavy Machinery & Mining Operations middleware workspace. License: MIT OR Apache
 - [x] `tpt-t-construction-drill`: collar positioning via LiDAR/GNSS
 
 ## Phase 6 — Underground & GPS-Denied Navigation
-- [ ] `tpt-t-construction-mine`: LiDAR SLAM (custom EKF fusing LiDAR + wheel odometry + IMU)
-- [ ] `tpt-t-construction-mine`: SIMD (portable-simd) ICP achieving 10Hz updates on Cortex-A72
-- [ ] `tpt-t-construction-mine`: UWB beacon integration (<0.5m accuracy)
-- [ ] `tpt-t-construction-mine`: ventilation-aware routing
-- [ ] `tpt-t-construction-mine`: bolt carrier / shotcrete rig coordination (safe working distances)
-- [ ] `tpt-t-construction-tunnel`: TBM/roadheader advance rate optimization
-- [ ] `tpt-t-construction-tunnel`: cutter head torque management
-- [ ] `tpt-t-construction-tunnel`: segment installation coordination
+- [x] `tpt-t-construction-mine`: LiDAR SLAM (custom EKF fusing LiDAR + wheel odometry + IMU)
+- [x] `tpt-t-construction-mine`: SIMD (portable-simd) ICP achieving 10Hz updates on Cortex-A72 — `core::simd` is still nightly-only (rust-lang/rust#86656), so this is an auto-vectorization-friendly implementation (same tradeoff as `tpt-t-construction-payload`'s cut/fill calc); 10Hz-class timing (<100ms/scan) validated on dev hardware, not yet profiled on an actual Cortex-A72 target (that belongs to Phase 12 hardware bring-up)
+- [x] `tpt-t-construction-mine`: UWB beacon integration (<0.5m accuracy)
+- [x] `tpt-t-construction-mine`: ventilation-aware routing
+- [x] `tpt-t-construction-mine`: bolt carrier / shotcrete rig coordination (safe working distances)
+- [x] `tpt-t-construction-tunnel`: TBM/roadheader advance rate optimization
+- [x] `tpt-t-construction-tunnel`: cutter head torque management
+- [x] `tpt-t-construction-tunnel`: segment installation coordination
 
 ## Phase 7 — Safety Systems
 - [ ] `tpt-t-construction-safety`: 360° LiDAR/radar/camera fusion perception pipeline (<50ms)
