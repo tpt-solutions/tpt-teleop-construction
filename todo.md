@@ -87,11 +87,11 @@ Heavy Machinery & Mining Operations middleware workspace. License: MIT OR Apache
 - [x] `tpt-t-construction-fatigue`: mandatory rest enforcement
 
 ## Phase 8 — Maintenance & Telemetry
-- [ ] `tpt-t-construction-wear`: custom SIMD FFT vibration analysis (pre-allocated, 10kHz, dedicated core)
-- [ ] `tpt-t-construction-wear`: bearing wear / gear tooth damage / imbalance signature detection
-- [ ] `tpt-t-construction-wear`: hydraulic pressure, engine hours, undercarriage wear monitoring
-- [ ] `tpt-t-construction-telemetry`: 100Hz logging of all machine parameters to local NVMe
-- [ ] `tpt-t-construction-telemetry`: post-shift analysis export, OEM warranty claim support
+- [x] `tpt-t-construction-wear`: custom SIMD FFT vibration analysis (pre-allocated, 10kHz, dedicated core) — a genuine O(n log n) iterative radix-2 FFT with pre-allocated twiddle/bit-reversal tables; auto-vectorization-friendly rather than literal `core::simd` (still nightly-only, rust-lang/rust#86656), same documented tradeoff as payload/mine crates
+- [x] `tpt-t-construction-wear`: bearing wear / gear tooth damage / imbalance signature detection
+- [x] `tpt-t-construction-wear`: hydraulic pressure, engine hours, undercarriage wear monitoring
+- [x] `tpt-t-construction-telemetry`: 100Hz logging of all machine parameters to local NVMe
+- [x] `tpt-t-construction-telemetry`: post-shift analysis export, OEM warranty claim support
 
 ## Phase 9 — Multi-Machine Coordination & End-to-End Integration
 - [ ] `tpt-t-construction-core`: excavator/haul-truck queue management algorithm
