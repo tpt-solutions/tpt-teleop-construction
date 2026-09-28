@@ -94,10 +94,10 @@ Heavy Machinery & Mining Operations middleware workspace. License: MIT OR Apache
 - [x] `tpt-t-construction-telemetry`: post-shift analysis export, OEM warranty claim support
 
 ## Phase 9 — Multi-Machine Coordination & End-to-End Integration
-- [ ] `tpt-t-construction-core`: excavator/haul-truck queue management algorithm
-- [ ] `tpt-t-construction-core`: truck arrival prediction from GPS position/speed
-- [ ] `tpt-t-construction-core`: swing-cycle adjustment, 10Hz zero-alloc coordination loop
-- [ ] End-to-end "Open-Pit Mine Haulage" scenario test in sim (shift start → self-test → dispatch → haul → load → return → dump → maintenance alert → shift end)
+- [x] `tpt-t-construction-core`: excavator/haul-truck queue management algorithm
+- [x] `tpt-t-construction-core`: truck arrival prediction from GPS position/speed
+- [x] `tpt-t-construction-core`: swing-cycle adjustment, 10Hz zero-alloc coordination loop
+- [x] End-to-end "Open-Pit Mine Haulage" scenario test in sim (shift start → self-test → dispatch → haul → load → return → dump → maintenance alert → shift end)
 
 ## Phase 10 — tpt-teleop Integration
 - [ ] `tpt-t-construction-teleop`: adapter crate scaffold, depends on tpt-teleop-domain-bridge

@@ -8,3 +8,15 @@ repository.workspace = true
 description = "Headless simulator: 6DOF vehicle dynamics, tire/track-soil and rollover physics, hydraulic system dynamics, diesel engine/transmission curves, synthetic LiDAR/radar, and proximity-detection scenario scripting."
 
 [dependencies]
+
+[dev-dependencies]
+tpt-t-construction-core = { workspace = true }
+tpt-t-construction-excavator = { workspace = true }
+tpt-t-construction-haul = { workspace = true }
+tpt-t-construction-hydraulic = { workspace = true }
+tpt-t-construction-payload = { workspace = true }
+tpt-t-construction-powertrain = { workspace = true }
+tpt-t-construction-rollover = { workspace = true }
+tpt-t-construction-safety = { workspace = true }
+tpt-t-construction-telemetry = { workspace = true }
+tpt-t-construction-wear = { workspace = true }

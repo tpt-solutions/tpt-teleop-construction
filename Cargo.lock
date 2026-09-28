@@ -3354,6 +3354,18 @@ version = "0.1.0"
 [[package]]
 name = "tpt-t-construction-sim"
 version = "0.1.0"
+dependencies = [
+ "tpt-t-construction-core",
+ "tpt-t-construction-excavator",
+ "tpt-t-construction-haul",
+ "tpt-t-construction-hydraulic",
+ "tpt-t-construction-payload",
+ "tpt-t-construction-powertrain",
+ "tpt-t-construction-rollover",
+ "tpt-t-construction-safety",
+ "tpt-t-construction-telemetry",
+ "tpt-t-construction-wear",
+]
 
 [[package]]
 name = "tpt-t-construction-telemetry"
