@@ -1,0 +1,25 @@
+[package]
+name = "tpt-t-construction-visualizer"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+authors = ["TPT Solutions"]
+repository = "https://github.com/tpt-solutions/tpt-teleop-construction"
+description = "egui visualizer for the tpt-teleop-construction simulator (excluded from the stable workspace; see root Cargo.toml `exclude`)"
+
+[[bin]]
+name = "tpt-t-construction-visualizer"
+path = "src/main.rs"
+
+[dependencies]
+tpt-t-construction-sim = { path = "../tpt-t-construction-sim" }
+eframe = "0.31"
+
+# Excluded from the parent workspace (see root Cargo.toml `exclude`): the
+# egui/winit dependency chain carries licenses outside the strict MIT-chain
+# `deny.toml` policy that workspace members are audited under (spec 2).
+# The fleet/agri sister repos ship the same dependency set under a relaxed
+# policy, so the visualizer is built and released from this directory in
+# isolation; `cargo deny` inside `crates/tpt-t-construction-visualizer/`
+# uses its own scoped policy.

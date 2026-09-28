@@ -1,0 +1,8 @@
+[toolchain]
+# The whole workspace builds on stable: the SIMD hot paths (payload cut/fill,
+# SLAM ICP, vibration FFT) use the `core::arch`-backed `f32x4` shim in
+# `tpt-t-construction-core::simd` instead of the unstable `portable_simd`
+# feature, so no crate needs a crate-local nightly override (unlike
+# `tpt-t-agri-crop` in the agri sister repo).
+channel = "stable"
+components = ["rustfmt", "clippy"]
