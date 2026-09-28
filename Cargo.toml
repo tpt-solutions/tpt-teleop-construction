@@ -11,7 +11,9 @@ repository = "https://github.com/tpt-solutions/tpt-teleop-construction"
 
 [workspace.dependencies]
 tpt-teleop-ring = { path = "crates/tpt-teleop-ring" }
+tpt-t-construction-can = { path = "crates/tpt-t-construction-can" }
 tpt-t-construction-core = { path = "crates/tpt-t-construction-core" }
+tpt-t-construction-hil = { path = "crates/tpt-t-construction-hil" }
 tpt-t-construction-hydraulic = { path = "crates/tpt-t-construction-hydraulic" }
 tpt-t-construction-powertrain = { path = "crates/tpt-t-construction-powertrain" }
 tpt-t-construction-terrain = { path = "crates/tpt-t-construction-terrain" }

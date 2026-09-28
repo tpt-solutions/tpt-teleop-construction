@@ -1,0 +1,10 @@
+[package]
+name = "tpt-t-construction-can"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Zero-alloc CAN/J1939 frame parsing: 29-bit identifier decoding, generic signal extraction, known engine SPN decoders, and fixed-capacity transport-protocol (BAM) reassembly."
+
+[dependencies]

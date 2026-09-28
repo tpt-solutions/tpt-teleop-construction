@@ -3287,6 +3287,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "tpt-t-construction-can"
+version = "0.1.0"
+
+[[package]]
 name = "tpt-t-construction-core"
 version = "0.1.0"
 dependencies = [
@@ -3316,6 +3320,14 @@ version = "0.1.0"
 [[package]]
 name = "tpt-t-construction-haul"
 version = "0.1.0"
+
+[[package]]
+name = "tpt-t-construction-hil"
+version = "0.1.0"
+dependencies = [
+ "tpt-t-construction-hydraulic",
+ "tpt-t-construction-sim",
+]
 
 [[package]]
 name = "tpt-t-construction-hydraulic"

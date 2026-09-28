@@ -120,13 +120,13 @@ Heavy Machinery & Mining Operations middleware workspace. License: MIT OR Apache
 - [x] Zero-false-stop validation suite for proximity detection — `tpt-t-construction-safety/tests/zero_false_stop.rs`: false-stop scenarios (safe-distance equipment, single-frame sensor noise blips, the shrunk zone behind a moving machine) plus positive controls proving genuine sustained hazards still stop the machine
 
 ## Phase 12 — Hardware Bring-Up & Field Validation
-- [ ] Zero-alloc CAN/J1939 parser implementation
-- [ ] Hardware-in-loop testing harness
-- [ ] Physical hydraulic valve/PWM driver bring-up on target machine
-- [ ] Real LiDAR/radar/camera integration replacing sim synthetic data
-- [ ] Target embedded platform (e.g. Cortex-A72) performance validation against spec'd budgets
-- [ ] Extreme-environment validation (-40°C to +50°C, 10g vibration)
-- [ ] Full 12-hour shift field trial
+- [x] Zero-alloc CAN/J1939 parser implementation — `tpt-t-construction-can`: 29-bit identifier/PGN decoding (`id.rs`), generic byte-aligned signal extraction (`signal.rs`), known engine SPN decoders for SPN 190/110 (`spn.rs`), and fixed-capacity BAM transport-protocol reassembly (`transport.rs`). This item is genuinely software — no physical CAN bus needed to parse a byte layout — unlike everything else in this phase.
+- [x] Hardware-in-loop testing harness — `tpt-t-construction-hil`: a `HardwareBackend` trait plus a real Phase 3 `PidController` driving it (`HilHarness`), validated end-to-end against `SimulatedBackend` (wired to `tpt-t-construction-sim`'s plant models). `PhysicalBackend` is the honest placeholder for the other half: its `connect()` always returns `Err(HilError::NoHardwareAttached)`, documented as exactly that rather than an unimplemented panic — see below for why it can't be more than a placeholder here.
+- [ ] Physical hydraulic valve/PWM driver bring-up on target machine — **blocked on hardware**: requires an actual proportional valve, PWM driver board, and target machine wiring. No amount of additional code in this sandboxed workspace substitutes for that; `tpt-t-construction-hydraulic::realtime` already implements the real-time scaffolding (`SCHED_FIFO`, core pinning) this would plug into once hardware exists.
+- [ ] Real LiDAR/radar/camera integration replacing sim synthetic data — **blocked on hardware**: requires physical sensors and their vendor drivers. `tpt-t-construction-safety::perception`/`tpt-t-construction-sim::lidar` are the two ends (real pipeline, synthetic data source) this would connect; only the connection itself is missing, and it's inherently a hardware/driver integration, not an algorithm gap.
+- [ ] Target embedded platform (e.g. Cortex-A72) performance validation against spec'd budgets — **blocked on hardware**: the mine/wear crates' SIMD-style timing claims (Phase 6/8) were already flagged as "validated on dev hardware, not yet profiled on an actual Cortex-A72 target" — this checklist item is that profiling pass, and needs the actual target board.
+- [ ] Extreme-environment validation (-40°C to +50°C, 10g vibration) — **blocked on hardware**: requires an environmental test chamber and a physical machine; not reproducible in software.
+- [ ] Full 12-hour shift field trial — **blocked on hardware**: requires an actual mine site, an actual machine, and actual personnel; this is what all of the above sign off on before it can happen, not something that happens earlier.
 
 ## Phase 13 — Release Readiness
 - [ ] Crate-level API docs + architecture documentation pass

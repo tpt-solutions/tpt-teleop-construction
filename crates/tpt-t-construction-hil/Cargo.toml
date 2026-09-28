@@ -1,0 +1,12 @@
+[package]
+name = "tpt-t-construction-hil"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Hardware-in-loop (HIL) test harness: a HardwareBackend trait the same control code drives against either a simulated plant (tpt-t-construction-sim) or physical hardware, once that hardware exists (Phase 12)."
+
+[dependencies]
+tpt-t-construction-hydraulic = { workspace = true }
+tpt-t-construction-sim = { workspace = true }

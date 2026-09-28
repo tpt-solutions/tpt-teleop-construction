@@ -19,12 +19,14 @@ All crates live under `crates/` and use the `tpt-t-construction-` prefix
 | Crate | Purpose |
 |---|---|
 | `tpt-teleop-ring` | Vendored lock-free SPSC/MPSC ring buffer used for IPC/telemetry |
+| `tpt-t-construction-can` | Zero-alloc CAN/J1939 parsing: identifier/PGN decoding, engine SPN decoders, BAM transport reassembly |
 | `tpt-t-construction-core` | Central event loop, machine state machine, lock-free message bus |
 | `tpt-t-construction-excavator` | Autonomous excavator: trenching, truck loading, grading |
 | `tpt-t-construction-haul` | Autonomous haul truck: road navigation, dump queueing, payload tracking |
 | `tpt-t-construction-dozer` | Autonomous dozer: slope grading, cut/fill tracking, material pushing |
 | `tpt-t-construction-loader` | Wheel/front-end loader: bucket digging, lifting, truck loading |
 | `tpt-t-construction-drill` | Automated drilling rigs: blast hole patterns, rock hardness detection |
+| `tpt-t-construction-hil` | Hardware-in-loop test harness: a `HardwareBackend` trait run today against a simulated plant |
 | `tpt-t-construction-mine` | Underground navigation: LiDAR SLAM, UWB positioning, ventilation-aware routing |
 | `tpt-t-construction-tunnel` | TBM/roadheader control: advance rate, cutter head torque, segment installation |
 | `tpt-t-construction-hydraulic` | Proportional hydraulic valve control: 1kHz PID, pressure comp, flow sharing |
