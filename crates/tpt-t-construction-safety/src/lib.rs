@@ -8,6 +8,7 @@
 mod classification;
 mod perception;
 mod response;
+mod tmr;
 mod tracking;
 mod warning_zones;
 
@@ -16,5 +17,6 @@ pub use perception::{fuse_detections, Detection, FusedObject, SensorKind};
 pub use response::{
     effective_zone, speed_command_fraction, HazardZone, PresenceEscalation, ZoneRadii,
 };
+pub use tmr::{vote_exact, vote_f32, VoteResult};
 pub use tracking::{Track, TrackManager};
 pub use warning_zones::{is_within_dynamic_zone, zone_radius_at_bearing_m, DynamicZoneParams};

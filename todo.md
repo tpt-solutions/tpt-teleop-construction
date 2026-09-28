@@ -111,13 +111,13 @@ Heavy Machinery & Mining Operations middleware workspace. License: MIT OR Apache
 - [x] Reconcile aspirational `ControlCommand` (operator_id/InputState/ButtonState) against the actual flat 56-byte POD type in tpt-teleop-core (open decision, not yet resolved upstream) — `src/control_command.rs` defines and documents the concrete 56-byte `RawControlCommand` this crate actually decodes: `Uuid` operator_id → `u32` session id, two independent 8-axis `InputState`s → one shared 8-axis array split into primary/secondary halves, `HapticCmd` dropped (downlink concern, not the uplink hot path)
 
 ## Phase 11 — Safety Certification & Compliance
-- [ ] Deterministic-execution audit across safety-critical loops (safety, rollover, hydraulic)
-- [ ] Redundant safety monitoring / TMR voter implementation
-- [ ] Complete audit trail logging for certification
-- [ ] ISO 19014 (earth-moving machinery safety) compliance review
-- [ ] MSHA regulation compliance review
-- [ ] IEC 61508 SIL 2/3 functional safety certification documentation
-- [ ] Zero-false-stop validation suite for proximity detection
+- [x] Deterministic-execution audit across safety-critical loops (safety, rollover, hydraulic) — `docs/deterministic_execution_audit.md`; hydraulic and rollover are clean (allocation-free, O(1)/fixed-bound), safety's `response`/`classification`/`warning_zones`/`tmr` are clean but `perception`/`tracking` have a documented allocation/unbounded-loop gap with a proposed remediation
+- [x] Redundant safety monitoring / TMR voter implementation — `tpt-t-construction-safety::tmr` (`vote_exact`, `vote_f32`, majority/no-quorum detection)
+- [x] Complete audit trail logging for certification — `tpt-t-construction-telemetry::audit`: append-only, hash-chained (FNV-1a) `AuditLog`/`AuditRecord`, with `verify_chain` detecting alteration/deletion/reordering; module docs are explicit that a production deployment wanting deliberate-tamper resistance needs a cryptographic MAC + hardware key store (Phase 12)
+- [x] ISO 19014 (earth-moving machinery safety) compliance review — `docs/compliance/iso_19014.md` (honest gap-analysis mapping, not a certification claim; see `docs/compliance/README.md`)
+- [x] MSHA regulation compliance review — `docs/compliance/msha.md`
+- [x] IEC 61508 SIL 2/3 functional safety certification documentation — `docs/compliance/iec_61508.md`
+- [x] Zero-false-stop validation suite for proximity detection — `tpt-t-construction-safety/tests/zero_false_stop.rs`: false-stop scenarios (safe-distance equipment, single-frame sensor noise blips, the shrunk zone behind a moving machine) plus positive controls proving genuine sustained hazards still stop the machine
 
 ## Phase 12 — Hardware Bring-Up & Field Validation
 - [ ] Zero-alloc CAN/J1939 parser implementation
