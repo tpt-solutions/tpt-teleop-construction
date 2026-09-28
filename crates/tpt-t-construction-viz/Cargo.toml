@@ -12,3 +12,7 @@ name = "tpt-t-construction-viz"
 path = "src/main.rs"
 
 [dependencies]
+eframe = "0.28"
+egui = "0.28"
+egui_plot = "0.28"
+tpt-t-construction-sim = { workspace = true }

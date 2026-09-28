@@ -18,17 +18,17 @@ Heavy Machinery & Mining Operations middleware workspace. License: MIT OR Apache
 - [x] Full self-test framework (shift-start diagnostics)
 
 ## Phase 2 — Simulation & Developer Experience
-- [ ] `tpt-t-construction-sim`: 6DOF vehicle dynamics, tire/track-soil + rollover physics
-- [ ] `tpt-t-construction-sim`: hydraulic system dynamics (valve response, pressure drops, cylinder forces)
-- [ ] `tpt-t-construction-sim`: diesel engine torque curves and transmission shifting
-- [ ] `tpt-t-construction-sim`: synthetic LiDAR/radar returns from terrain and obstacles
-- [ ] `tpt-t-construction-sim`: proximity-detection scenario scripting (virtual humans/vehicles)
-- [ ] egui-based visualizer: 3D terrain with cut/fill heatmaps
-- [ ] Visualizer: machine trajectories and payload weights
-- [ ] Visualizer: proximity detection zones and object classifications
-- [ ] Visualizer: hydraulic pressures and valve positions
-- [ ] Visualizer: vibration frequency spectra
-- [ ] Validate 10x real-time sim performance (12hr shift in ~1hr wall-clock)
+- [x] `tpt-t-construction-sim`: 6DOF vehicle dynamics, tire/track-soil + rollover physics
+- [x] `tpt-t-construction-sim`: hydraulic system dynamics (valve response, pressure drops, cylinder forces)
+- [x] `tpt-t-construction-sim`: diesel engine torque curves and transmission shifting
+- [x] `tpt-t-construction-sim`: synthetic LiDAR/radar returns from terrain and obstacles
+- [x] `tpt-t-construction-sim`: proximity-detection scenario scripting (virtual humans/vehicles)
+- [x] egui-based visualizer: 3D terrain with cut/fill heatmaps
+- [x] Visualizer: machine trajectories and payload weights
+- [x] Visualizer: proximity detection zones and object classifications
+- [x] Visualizer: hydraulic pressures and valve positions
+- [x] Visualizer: vibration frequency spectra
+- [x] Validate 10x real-time sim performance (12hr shift in ~1hr wall-clock)
 
 ## Phase 3 — Hydraulic & Powertrain Foundation
 - [ ] `tpt-t-construction-hydraulic`: 1kHz PID loop on pinned core (SCHED_FIFO), direct PWM valve output, <100µs loop budget
