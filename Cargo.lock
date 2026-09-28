@@ -3374,6 +3374,10 @@ version = "0.1.0"
 [[package]]
 name = "tpt-t-construction-teleop"
 version = "0.1.0"
+dependencies = [
+ "tpt-t-construction-core",
+ "tpt-t-construction-hydraulic",
+]
 
 [[package]]
 name = "tpt-t-construction-terrain"

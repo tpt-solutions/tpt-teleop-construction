@@ -100,15 +100,15 @@ Heavy Machinery & Mining Operations middleware workspace. License: MIT OR Apache
 - [x] End-to-end "Open-Pit Mine Haulage" scenario test in sim (shift start → self-test → dispatch → haul → load → return → dump → maintenance alert → shift end)
 
 ## Phase 10 — tpt-teleop Integration
-- [ ] `tpt-t-construction-teleop`: adapter crate scaffold, depends on tpt-teleop-domain-bridge
-- [ ] Implement Domain Teleoperation Interface: `on_teleop_engage` / `on_teleop_disengage`
-- [ ] Implement `on_control_command`, `get_domain_state`, `get_sensor_feed`
-- [ ] Translate ControlCommand → hydraulic proportional valve PWM via `tpt-t-construction-hydraulic` (pressure comp, flow sharing)
-- [ ] Implement operator implement-switching (e.g. bucket ↔ hammer)
-- [ ] Diesel-vibration filtering on joystick control inputs
-- [ ] Wire into universal safety state machine (AUTONOMOUS ↔ REQUESTING_TELEOP ↔ TELEOP_ACTIVE ↔ RETURNING_TO_AUTONOMY ↔ EMERGENCY_STOP)
-- [ ] Implement fault detection → `request_teleop_assistance()` handover trigger
-- [ ] Reconcile aspirational `ControlCommand` (operator_id/InputState/ButtonState) against the actual flat 56-byte POD type in tpt-teleop-core (open decision, not yet resolved upstream)
+- [x] `tpt-t-construction-teleop`: adapter crate scaffold — `tpt-teleop-domain-bridge`/`tpt-teleop-core` live in the separate sister `tpt-teleop` repo, not available in this workspace, so the Domain Teleoperation Interface (`src/dti.rs`) and wire format (`src/control_command.rs`) are defined locally instead of imported; see the reconciliation note below
+- [x] Implement Domain Teleoperation Interface: `on_teleop_engage` / `on_teleop_disengage` (`src/dti.rs`, `src/adapter.rs`)
+- [x] Implement `on_control_command`, `get_domain_state`, `get_sensor_feed` (`src/adapter.rs`)
+- [x] Translate ControlCommand → hydraulic proportional valve PWM via `tpt-t-construction-hydraulic` (pressure comp, flow sharing) (`src/valve_mapping.rs`)
+- [x] Implement operator implement-switching (e.g. bucket ↔ hammer) (`src/implement_switch.rs`)
+- [x] Diesel-vibration filtering on joystick control inputs (`src/vibration_filter.rs`, reuses `tpt-t-construction-hydraulic`'s `Biquad`)
+- [x] Wire into universal safety state machine (AUTONOMOUS ↔ REQUESTING_TELEOP ↔ TELEOP_ACTIVE ↔ RETURNING_TO_AUTONOMY ↔ EMERGENCY_STOP) (`src/safety_fsm.rs`)
+- [x] Implement fault detection → `request_teleop_assistance()` handover trigger (`src/fault_handover.rs`, `ExcavatorTeleopAdapter::report_fault`)
+- [x] Reconcile aspirational `ControlCommand` (operator_id/InputState/ButtonState) against the actual flat 56-byte POD type in tpt-teleop-core (open decision, not yet resolved upstream) — `src/control_command.rs` defines and documents the concrete 56-byte `RawControlCommand` this crate actually decodes: `Uuid` operator_id → `u32` session id, two independent 8-axis `InputState`s → one shared 8-axis array split into primary/secondary halves, `HapticCmd` dropped (downlink concern, not the uplink hot path)
 
 ## Phase 11 — Safety Certification & Compliance
 - [ ] Deterministic-execution audit across safety-critical loops (safety, rollover, hydraulic)

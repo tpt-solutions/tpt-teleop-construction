@@ -8,3 +8,5 @@ repository.workspace = true
 description = "Adapter crate to tpt-teleop-domain-bridge: teleoperation engage/disengage, control command translation, safety state machine wiring."
 
 [dependencies]
+tpt-t-construction-core = { workspace = true }
+tpt-t-construction-hydraulic = { workspace = true }
