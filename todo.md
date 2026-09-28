@@ -47,23 +47,23 @@ Heavy Machinery & Mining Operations middleware workspace. License: MIT OR Apache
 - [x] `tpt-t-construction-payload`: material type classification (dirt, rock, ore)
 
 ## Phase 5 — Autonomous Machine Control
-- [ ] `tpt-t-construction-excavator`: trench digging to exact depth/width
-- [ ] `tpt-t-construction-excavator`: truck loading with minimal swing cycle time
-- [ ] `tpt-t-construction-excavator`: grading to designed slope
-- [ ] `tpt-t-construction-excavator`: boom-arm-bucket kinematics, hydraulic cylinder coordination
-- [ ] `tpt-t-construction-excavator`: obstacle avoidance (utilities, boulders, other machines)
-- [ ] `tpt-t-construction-haul`: haul road navigation, edge drop-off avoidance
-- [ ] `tpt-t-construction-haul`: speed management (downgrades, curves, visibility)
-- [ ] `tpt-t-construction-haul`: dump-point/crusher queueing
-- [ ] `tpt-t-construction-haul`: payload weighing integration, per-shift tonnage tracking
-- [ ] `tpt-t-construction-dozer`: slope grading (real-time blade position feedback)
-- [ ] `tpt-t-construction-dozer`: real-time cut/fill volume tracking
-- [ ] `tpt-t-construction-dozer`: material pushing to stockpiles/hoppers/crushers
-- [ ] `tpt-t-construction-loader`: bucket digging and lifting
-- [ ] `tpt-t-construction-loader`: truck loading with payload weighing
-- [ ] `tpt-t-construction-drill`: blast hole pattern execution (depth/angle)
-- [ ] `tpt-t-construction-drill`: rock hardness detection via drill rate/torque
-- [ ] `tpt-t-construction-drill`: collar positioning via LiDAR/GNSS
+- [x] `tpt-t-construction-excavator`: trench digging to exact depth/width
+- [x] `tpt-t-construction-excavator`: truck loading with minimal swing cycle time
+- [x] `tpt-t-construction-excavator`: grading to designed slope
+- [x] `tpt-t-construction-excavator`: boom-arm-bucket kinematics, hydraulic cylinder coordination
+- [x] `tpt-t-construction-excavator`: obstacle avoidance (utilities, boulders, other machines)
+- [x] `tpt-t-construction-haul`: haul road navigation, edge drop-off avoidance
+- [x] `tpt-t-construction-haul`: speed management (downgrades, curves, visibility)
+- [x] `tpt-t-construction-haul`: dump-point/crusher queueing
+- [x] `tpt-t-construction-haul`: payload weighing integration, per-shift tonnage tracking
+- [x] `tpt-t-construction-dozer`: slope grading (real-time blade position feedback)
+- [x] `tpt-t-construction-dozer`: real-time cut/fill volume tracking
+- [x] `tpt-t-construction-dozer`: material pushing to stockpiles/hoppers/crushers
+- [x] `tpt-t-construction-loader`: bucket digging and lifting
+- [x] `tpt-t-construction-loader`: truck loading with payload weighing
+- [x] `tpt-t-construction-drill`: blast hole pattern execution (depth/angle)
+- [x] `tpt-t-construction-drill`: rock hardness detection via drill rate/torque
+- [x] `tpt-t-construction-drill`: collar positioning via LiDAR/GNSS
 
 ## Phase 6 — Underground & GPS-Denied Navigation
 - [ ] `tpt-t-construction-mine`: LiDAR SLAM (custom EKF fusing LiDAR + wheel odometry + IMU)

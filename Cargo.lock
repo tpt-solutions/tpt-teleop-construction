@@ -3297,6 +3297,9 @@ dependencies = [
 [[package]]
 name = "tpt-t-construction-dozer"
 version = "0.1.0"
+dependencies = [
+ "tpt-t-construction-payload",
+]
 
 [[package]]
 name = "tpt-t-construction-drill"

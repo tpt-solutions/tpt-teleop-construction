@@ -8,3 +8,4 @@ repository.workspace = true
 description = "Autonomous dozer control: slope grading, real-time cut/fill volume tracking, material pushing."
 
 [dependencies]
+tpt-t-construction-payload = { workspace = true }
